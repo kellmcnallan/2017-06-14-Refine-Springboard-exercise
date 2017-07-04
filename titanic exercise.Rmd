@@ -1,0 +1,68 @@
+---
+title: "Titanic exercise"
+author: "Kelly McNallan"
+date: "July 4, 2017"
+output: html_document
+---
+
+```{r setup}
+library(readr)
+
+#load data into R
+titanic <- read_csv ("titanic_original.csv")
+library(tidyr)
+library(dplyr)
+
+titanic<-tbl_df(titanic)
+head(titanic)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r embarkation}
+#Port of Embarkation
+
+
+dplyr::filter(titanic, is.na(embarked))
+titanic$embarked[is.na(titanic$embarked)] <- 'S'
+dplyr::filter
+head(titanic)
+```
+
+
+```{r age}
+#Age: Calculate the mean age
+
+dplyr::filter(titanic, is.na(age))
+titanic$age[is.na(titanic$age)] <- mean(titanic$age, na.rm = TRUE)
+dplyr::filter(titanic, is.na(age))
+head(titanic)
+```
+
+
+```{r lifeboat stats}
+#Lifeboat stats
+
+dplyr::filter(titanic, is.na(boat))
+titanic$boat[is.na(titanic$boat)] <- 'None'
+dplyr::filter(titanic, is.na(boat))
+head(titanic)
+```
+
+
+```{r cabin number}
+
+titanic <- titanic %>% rowwise() %>% mutate(has_cabin_number = ifelse(is.na(cabin),0,1))
+head(titanic)
+```
+
+
+```{r cleaned data}
+#cleaned data
+write.csv(titanic, "C:/Users/Kelly M/Documents/titanic_clean.csv", quote=TRUE, row.names=FALSE)
+```
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
